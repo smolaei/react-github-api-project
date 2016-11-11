@@ -3,6 +3,23 @@ var React = require('react');
 // Later on you might want to use a lighter library that only does AJAX, like isomorphic-fetch or superagent
 var $ = require('jquery');
 var Link = require('react-router').Link;
+// var GithubAPItoken = '1a66df422c51d62ef138f4a81e2b4b26e6289aaf';
+
+
+// class CommentBox extends React.Component {
+// 	constructor() {
+// 		super();
+		
+// 		this.state = {  //*instead of getInitialState
+// 			counter: 1;
+// 		};
+// 	}
+	
+// 	render() {
+// 	 ...
+// 	}
+// }
+
 
 var User = React.createClass({
     propTypes: {
@@ -26,10 +43,9 @@ var User = React.createClass({
     the data -- in the callback -- we call `setState` to put the user data in our state. This will trigger a re-render.
     When `render` gets called again, `this.state.user` exists and we get the user info display instead of "LOADING..."
     */
-    componentDidMount: function() {
-        var that = this; // What's this?? Make sure you remember or understand what this line does
-        
-        $.getJSON(`https://api.github.com/users/${this.props.params.username}`)
+    fetchData: function() {
+        var that = this; // allowes you to use the this keyword in the jQuery allowing it not to get confused with the this keyword in React...often people will call it 'that' but you can call it whatever variable you want
+        $.getJSON(`https://api.github.com/users/${this.props.params.username}?access_token=1a66df422c51d62ef138f4a81e2b4b26e6289aaf`)
             .then(
                 function(user) {
                     // Why that.setState instead of this.setState??
@@ -38,6 +54,16 @@ var User = React.createClass({
                     });
                 }
             );
+    },
+    
+    componentDidMount:function(){
+        this.fetchData();
+    },
+    
+    componentDidUpdate: function(prevProps){
+        if(prevProps.username !== this.props.username){
+            this.fetchData();
+        }
     },
     /*
     This method is used as a mapping function. Eventually this could be factored out to its own component.
@@ -94,6 +120,7 @@ var User = React.createClass({
                         {stats.map(this.renderStat)}              
                     </ul>
                 </div>
+                {this.props.children}
             </div>
         );
     }

@@ -52,8 +52,6 @@ h1,h2,h3,h4,h5,h6 {
 
 
 
-
-
 .user-info {
     display: flex;
     flex-wrap: wrap;
@@ -104,4 +102,13 @@ h1,h2,h3,h4,h5,h6 {
 .user-info__stat p {
     margin: 0;
     white-space: nowrap;
+}
+
+.follow {
+    display: flex;
+    flex-direction: column;
+}
+
+li {
+    list-style-type: none;
 }
